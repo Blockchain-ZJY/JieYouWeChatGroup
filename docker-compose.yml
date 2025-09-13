@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  nanchang-group-app:
+    build: .
+    ports:
+      - "3000:80"
+    container_name: nanchang-group-promo
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge 

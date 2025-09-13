@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  nanchang-group-app:
+    build: .
+    ports:
+      - "80:80"  # 生产环境使用80端口
+    container_name: nanchang-group-promo
+    restart: always
+    environment:
+      - NODE_ENV=production
+    networks:
+      - app-network
+    # 添加健康检查
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  app-network:
+    driver: bridge 
