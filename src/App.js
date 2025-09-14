@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, EffectCoverflow } from 'swiper/modules';
+import PaymentPage from './components/PaymentPage';
+import AddAdminPage from './components/AddAdminPage';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
 
 function App() {
   const [isVisible, setIsVisible] = useState({});
+  const [currentPage, setCurrentPage] = useState('home'); // home, payment, addAdmin
 
   // 交集观察器，用于滚动动画
   useEffect(() => {
@@ -28,21 +31,21 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
-  // 用户头像数据
-  const avatars = [
-    'pics/heads/9ace742ddef1fa35540f6b424a26cfa3.jpg',
-    'pics/heads/db159bb0c817ef4d6352e6721b3def98.jpg',
-    'pics/heads/344efaeea580b89c907dfce1dc670875.jpg',
-    'pics/heads/bdb3b2736fc6ccbc23633b33dd595f01.jpg',
-    'pics/heads/31b12e8a49e6dfb78dc34a96fc2d6e9a.jpg',
-    'pics/heads/d0fbc842bb8894a777f419f96338f903.jpg',
-    'pics/heads/fdadf7c0536589dac43f102553a2a7ab.jpg',
-    'pics/heads/a2d482c75c468153c96016fdeea6dda6.jpg',
-    'pics/heads/c36a1dac0a6dc97dbd6ab5b80e2c42d2.jpg',
-    'pics/heads/275f7ab31dfde58bd1dcf231cb320409.jpg',
-    'pics/heads/5b5fd311fcf04843fd8558a902429c90.jpg',
-    'pics/heads/17baaf52a64b56ed8c4239ed8b5d902e.jpg',
-    'pics/heads/7dfb5d7af203b7e33cb9dce752322ab2.jpg'
+  // 用户头像数据 - 使用新的文件名
+  const members = [
+    { name: '早八人_Amy', image: 'pics/heads/早八人_Amy.jpg' },
+    { name: '咖啡续命中', image: 'pics/heads/咖啡续命中.jpg' },
+    { name: '打工版·Bean', image: 'pics/heads/打工版·Bean.jpg' },
+    { name: 'Book_Lover', image: 'pics/heads/Book_Lover.jpg' },
+    { name: '加班打工人', image: 'pics/heads/加班打工人.jpg' },
+    { name: 'Rainy_Day_Vibe', image: 'pics/heads/Rainy_Day_Vibe.jpg' },
+    { name: 'Allen', image: 'pics/heads/Allen.jpg' },
+    { name: '旧书堆里的猫', image: 'pics/heads/旧书堆里的猫.jpg' },
+    { name: '小太阳储蓄罐', image: 'pics/heads/小太阳储蓄罐.jpg' },
+    { name: '汽水泡泡机', image: 'pics/heads/汽水泡泡机.jpg' },
+    { name: '月光放映厅', image: 'pics/heads/月光放映厅.jpg' },
+    { name: '碎碎念收藏家', image: 'pics/heads/碎碎念收藏家.jpg' },
+    { name: '星子掉进粥里', image: 'pics/heads/星子掉进粥里.jpg' }
   ];
 
   // 活动图片数据
@@ -64,12 +67,62 @@ function App() {
   // 移除了头像分组逻辑，现在使用连续滚动
 
   const handleJoinGroup = () => {
-    // 这里可以添加实际的入群逻辑
-    alert('正在跳转到支付页面...');
+    setCurrentPage('payment');
   };
+
+  const handlePaymentSuccess = () => {
+    setCurrentPage('addAdmin');
+  };
+
+  const handleBackToHome = () => {
+    setCurrentPage('home');
+  };
+
+  // 支付提示条内容
+  const paymentNotices = [
+    '南通***刚刚支付了19.9元',
+    '九江***刚刚支付了16.8元',
+    '南昌***刚刚支付了19.9元',
+    '赣州***刚刚支付了16.8元',
+    '景德镇***刚刚支付了19.9元',
+    '抚州***刚刚支付了16.8元',
+    '宜春***刚刚支付了19.9元',
+    '上饶***刚刚支付了16.8元',
+    '萍乡***刚刚支付了19.9元',
+    '新余***刚刚支付了16.8元',
+    '鹰潭***刚刚支付了19.9元',
+    '吉安***刚刚支付了16.8元',
+  ];
+  const [showPaymentBar, setShowPaymentBar] = useState(false);
+  const [currentNotice, setCurrentNotice] = useState(paymentNotices[0]);
+
+  useEffect(() => {
+    // 定时切换提示条
+    const showBar = () => {
+      // 随机一条
+      const idx = Math.floor(Math.random() * paymentNotices.length);
+      setCurrentNotice(paymentNotices[idx]);
+      setShowPaymentBar(true);
+      setTimeout(() => setShowPaymentBar(false), 3200); // 显示3.2秒
+    };
+    showBar();
+    const interval = setInterval(showBar, 5000); // 每5秒切换
+    return () => clearInterval(interval);
+  }, []);
+
+  // 渲染不同页面
+  if (currentPage === 'payment') {
+    return <PaymentPage onPaymentSuccess={handlePaymentSuccess} onBack={handleBackToHome} />;
+  }
+
+  if (currentPage === 'addAdmin') {
+    return <AddAdminPage onBack={handleBackToHome} />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-950 to-pink-950 relative overflow-hidden">
+      {/* 漂浮支付提示条 */}
+      <div className={`floating-payment-bar${showPaymentBar ? ' show' : ''}`}>{currentNotice}</div>
       {/* 星空背景 */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         {/* 小星星 */}
@@ -197,65 +250,71 @@ function App() {
           ))}
         </div>
         
-        <div className="relative">
-          <div className="text-center mb-12 px-6">
+        <div className="relative max-w-6xl mx-auto px-6">
+          <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-white mb-4 drop-shadow-lg">
               活跃群成员
             </h2>
             <p className="text-purple-200 text-lg">
-              实时在线，随时互动
+              认识这些有趣的朋友们
             </p>
           </div>
           
-          {/* 滚动容器 */}
-          <div className="relative">
-            {/* 渐变遮罩 */}
-            <div className="absolute left-0 top-0 w-20 h-full bg-gradient-to-r from-indigo-900 to-transparent z-10"></div>
-            <div className="absolute right-0 top-0 w-20 h-full bg-gradient-to-l from-pink-900 to-transparent z-10"></div>
-            
-            {/* 滚动内容 */}
-            <div className="flex animate-scroll">
-              {/* 无限循环的头像 */}
-              {avatars.concat(avatars).concat(avatars).map((avatar, index) => (
-                <div
-                  key={`scroll-${index}`}
-                  className="relative group mx-4 flex-shrink-0"
-                >
-                  <div className="relative">
+          {/* 成员卡片网格 */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-6">
+            {members.map((member, index) => (
+              <div
+                key={`member-${index}`}
+                className="group relative bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-white/20 hover:bg-white/20 hover:border-white/40 transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl"
+              >
+                <div className="text-center">
+                  {/* 头像 */}
+                  <div className="relative mb-3">
                     <img
-                      src={avatar}
-                      alt={`群成员 ${index + 1}`}
-                      className="w-20 h-20 rounded-3xl object-cover ring-4 ring-white/20 shadow-2xl group-hover:scale-110 group-hover:ring-white/40 transition-all duration-300 ease-out"
+                      src={member.image}
+                      alt={member.name}
+                      className="w-16 h-16 mx-auto rounded-2xl object-cover ring-3 ring-white/30 shadow-lg group-hover:ring-white/50 transition-all duration-300"
                       onError={(e) => {
-                        e.target.style.display = 'none';
+                        e.target.src = 'https://via.placeholder.com/64/6366f1/white?text=' + encodeURIComponent(member.name.charAt(0));
                       }}
                     />
                     
+                    {/* 在线状态指示器 */}
+                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white shadow-lg animate-pulse"></div>
+                    
                     {/* 悬停光效 */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                   
-                  {/* 名字标签 (悬停显示) */}
-                  <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="bg-white/90 backdrop-blur text-gray-800 text-xs px-3 py-1 rounded-full whitespace-nowrap shadow-lg">
-                      用户{(index % 13) + 1}
-                    </div>
+                  {/* 名称 */}
+                  <div className="text-white text-sm font-medium truncate group-hover:text-purple-200 transition-colors duration-300">
+                    {member.name}
+                  </div>
+                  
+                  {/* 装饰性小点 */}
+                  <div className="flex justify-center mt-2 space-x-1">
+                    <div className="w-1 h-1 bg-purple-400 rounded-full opacity-60"></div>
+                    <div className="w-1 h-1 bg-pink-400 rounded-full opacity-60"></div>
+                    <div className="w-1 h-1 bg-blue-400 rounded-full opacity-60"></div>
                   </div>
                 </div>
-              ))}
-            </div>
+                
+                {/* 卡片背景装饰 */}
+                <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full -mr-2 -mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
+            ))}
           </div>
           
-          <div className="mt-16 text-center px-6">
+          <div className="mt-12 text-center">
             <div className="inline-flex items-center space-x-3 bg-white/10 backdrop-blur px-6 py-3 rounded-full border border-white/20">
-              <div className="w-3 h-3 bg-purple-400 rounded-full animate-pulse shadow-lg"></div>
+              <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg"></div>
               <span className="text-white font-medium">
-                400+ 位群成员
+                {members.length} 位活跃成员在线
               </span>
               <div className="w-2 h-2 bg-white/50 rounded-full animate-ping"></div>
             </div>
             <p className="text-purple-200 mt-4 text-sm">
-              无限滚动展示 · 精选成员
+              点击头像了解更多 · 随时加入互动
             </p>
           </div>
         </div>
