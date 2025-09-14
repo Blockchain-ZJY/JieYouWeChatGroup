@@ -1,11 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, EffectCoverflow } from 'swiper/modules';
-import PaymentPage from './components/PaymentPage';
 import AddAdminPage from './components/AddAdminPage';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
+
+// 新的群主二维码页面组件
+function AdminPage({ onBack }) {
+  return (
+    <div className="fixed inset-0 bg-gradient-to-br from-indigo-950 via-purple-950 to-pink-950 flex items-center justify-center z-50">
+      <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 max-w-md mx-4 text-center border border-white/20 relative">
+        {/* 关闭按钮 */}
+        <button
+          onClick={onBack}
+          className="absolute top-4 right-4 text-white/60 hover:text-white text-2xl"
+        >
+          ×
+        </button>
+        <h2 className="text-2xl font-bold text-white">添加群主微信</h2>
+        <div className="bg-white rounded-2xl  mb-6 relative">
+          <div className="w-84 h-84 mx-auto bg-gray-100 rounded-xl flex items-center justify-center relative overflow-hidden">
+            <img src="/pics/admin.jpg" alt="群主微信二维码" className="w-full h-full object-contain rounded-xl" />
+          </div>
+        </div>
+        <p className="text-purple-200 text-base mt-2">支付成功后请加群主，并将支付截图发给群主，群主会拉你进群。</p>
+      </div>
+    </div>
+  );
+}
+
+// 新的付款码页面组件
+function PaymentPage({ onBack, onPaid }) {
+  return (
+    <div className="fixed inset-0 bg-gradient-to-br from-indigo-950 via-purple-950 to-pink-950 flex items-center justify-center z-50">
+      <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 max-w-md mx-4 text-center border border-white/20 relative">
+        {/* 关闭按钮 */}
+        <button
+          onClick={onBack}
+          className="absolute top-4 right-4 text-white/60 hover:text-white text-2xl"
+        >
+          ×
+        </button>
+        <h2 className="text-2xl font-bold text-white mb-2">微信支付</h2>
+        <p className="text-purple-200 mb-6">扫码下方二维码完成支付</p>
+        <div className="bg-white rounded-2xl p-6 mb-6 relative">
+          <div className="w-48 h-48 mx-auto bg-gray-100 rounded-xl flex items-center justify-center relative overflow-hidden">
+            <img src="/pics/收款码.jpg" alt="微信收款码" className="w-full h-full object-contain rounded-xl" />
+          </div>
+        </div>
+        <button
+          className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl text-lg mt-2 transition-colors"
+          onClick={onPaid}
+        >
+          已支付，添加群主入群
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function App() {
   const [isVisible, setIsVisible] = useState({});
@@ -118,13 +171,16 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
-  // 渲染不同页面
-  if (currentPage === 'payment') {
-    return <PaymentPage onPaymentSuccess={handlePaymentSuccess} onBack={handleBackToHome} />;
-  }
 
   if (currentPage === 'addAdmin') {
     return <AddAdminPage onBack={handleBackToHome} />;
+  }
+
+  if (currentPage === 'payment') {
+    return <PaymentPage onBack={() => setCurrentPage('home')} onPaid={() => setCurrentPage('admin')} />;
+  }
+  if (currentPage === 'admin') {
+    return <AdminPage onBack={() => setCurrentPage('home')} />;
   }
 
   return (
@@ -660,7 +716,7 @@ function App() {
         </div>
         <div className="max-w-md mx-auto relative">
           <button
-            onClick={handleJoinGroup}
+            onClick={() => setCurrentPage('payment')}
             className="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white text-xl font-bold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 animate-pulse-slow"
           >
             <span className="flex items-center justify-center">

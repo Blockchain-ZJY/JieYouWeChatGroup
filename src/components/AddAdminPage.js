@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
 
 const AddAdminPage = ({ onBack }) => {
-  const [copied, setCopied] = useState(false);
+  const [copied] = useState(false);
 
-  const copyWechatId = () => {
-    // 这里可以设置实际的微信号
-    const wechatId = "nanchang_admin_2024";
-    navigator.clipboard.writeText(wechatId).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  };
 
   return (
     <div className="fixed inset-0 bg-gradient-to-br from-indigo-950 via-purple-950 to-pink-950 flex items-center justify-center z-50">
@@ -100,25 +92,6 @@ const AddAdminPage = ({ onBack }) => {
           </div>
         </div>
 
-        {/* 微信号复制 */}
-        <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-2xl p-4 mb-6 border border-green-400/30">
-          <div className="flex items-center justify-between">
-            <div className="text-left">
-              <div className="text-white font-medium">微信号</div>
-              <div className="text-green-300 text-lg font-mono">nanchang_admin_2024</div>
-            </div>
-            <button
-              onClick={copyWechatId}
-              className={`px-4 py-2 rounded-xl font-medium transition-all ${
-                copied 
-                  ? 'bg-green-600 text-white' 
-                  : 'bg-white/20 text-white hover:bg-white/30'
-              }`}
-            >
-              {copied ? '已复制' : '复制'}
-            </button>
-          </div>
-        </div>
 
         {/* 重要提醒 */}
         <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 rounded-2xl p-4 mb-6 border border-orange-400/30">
