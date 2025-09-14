@@ -106,32 +106,26 @@ const PaymentPage = ({ onPaymentSuccess, onBack }) => {
 
         {/* 支付金额 */}
         <div className="bg-gradient-to-r from-orange-500/20 to-pink-500/20 rounded-2xl p-4 mb-6 border border-orange-400/30">
-          <div className="text-3xl font-bold text-white mb-1">¥16.8</div>
+          <div className="text-3xl font-bold text-white mb-1">¥19.9</div>
           <div className="text-orange-200 text-sm">戒忧南昌同城搭子群</div>
         </div>
 
         {/* 二维码区域 */}
         <div className="bg-white rounded-2xl p-6 mb-6 relative">
           <div className="w-48 h-48 mx-auto bg-gray-100 rounded-xl flex items-center justify-center relative overflow-hidden">
-            {/* 模拟微信支付二维码 */}
-            <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-green-600 opacity-10"></div>
-            <div className="text-center">
-              <div className="text-4xl mb-2">📱</div>
-              <div className="text-gray-600 font-medium">微信支付二维码</div>
-              <div className="text-gray-400 text-sm mt-1">请使用微信扫码支付</div>
-            </div>
-            
-            {/* 扫描动画效果 */}
-            <div className="absolute inset-0 border-4 border-green-500 rounded-xl animate-pulse"></div>
-          </div>
-          
-          <div className="mt-4 text-gray-600 text-sm">
-            <div className="flex items-center justify-center space-x-2">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-              <span>等待支付中...</span>
-            </div>
+            <img src={require('../pics/收款码.jpg')} alt="微信收款码" className="w-full h-full object-contain rounded-xl" />
           </div>
         </div>
+
+        {/* 新按钮 */}
+        <button
+          className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl text-lg mt-2 transition-colors"
+          onClick={() => {
+            window.open('https://w.url.qq.com/?id=戒忧南昌同城搭子群', '_blank');
+          }}
+        >
+          已支付，添加群主入群
+        </button>
 
         {/* 倒计时 */}
         <div className="text-center mb-4">

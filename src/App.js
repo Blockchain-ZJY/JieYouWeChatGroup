@@ -81,17 +81,25 @@ function App() {
   // 支付提示条内容
   const paymentNotices = [
     '南通***刚刚支付了19.9元',
-    '九江***刚刚支付了16.8元',
+    '九江***刚刚支付了19.9元',
     '南昌***刚刚支付了19.9元',
-    '赣州***刚刚支付了16.8元',
+    '赣州***刚刚支付了19.9元',
     '景德镇***刚刚支付了19.9元',
-    '抚州***刚刚支付了16.8元',
+    '抚州***刚刚支付了19.9元',
     '宜春***刚刚支付了19.9元',
-    '上饶***刚刚支付了16.8元',
+    '上饶***刚刚支付了19.9元',
     '萍乡***刚刚支付了19.9元',
-    '新余***刚刚支付了16.8元',
+    '新余***刚刚支付了19.9元',
     '鹰潭***刚刚支付了19.9元',
-    '吉安***刚刚支付了16.8元',
+    '吉安***刚刚支付了19.9元',
+    '赣江新区***刚刚支付了19.9元',
+    '高新***刚刚支付了19.9元',
+    '青山湖***刚刚支付了19.9元',
+    '红谷滩***刚刚支付了19.9元',
+    '东湖***刚刚支付了19.9元',
+    '西湖***刚刚支付了19.9元',
+    '青云谱***刚刚支付了19.9元',
+    '湾里***刚刚支付了19.9元',
   ];
   const [showPaymentBar, setShowPaymentBar] = useState(false);
   const [currentNotice, setCurrentNotice] = useState(paymentNotices[0]);
@@ -261,61 +269,43 @@ function App() {
           </div>
           
           {/* 成员卡片网格 */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-6">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3">
             {members.map((member, index) => (
               <div
                 key={`member-${index}`}
-                className="group relative bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-white/20 hover:bg-white/20 hover:border-white/40 transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl"
+                className="group relative bg-white/10 backdrop-blur-lg rounded-2xl p-2 border border-white/20 hover:bg-white/20 hover:border-white/40 transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl"
               >
                 <div className="text-center">
                   {/* 头像 */}
-                  <div className="relative mb-3">
+                  <div className="relative mb-2">
                     <img
                       src={member.image}
                       alt={member.name}
-                      className="w-16 h-16 mx-auto rounded-2xl object-cover ring-3 ring-white/30 shadow-lg group-hover:ring-white/50 transition-all duration-300"
+                      className="w-12 h-12 mx-auto rounded-2xl object-cover ring-2 ring-white/30 shadow-lg group-hover:ring-white/50 transition-all duration-300"
                       onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/64/6366f1/white?text=' + encodeURIComponent(member.name.charAt(0));
+                        e.target.src = 'https://via.placeholder.com/48/6366f1/white?text=' + encodeURIComponent(member.name.charAt(0));
                       }}
                     />
-                    
                     {/* 在线状态指示器 */}
-                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white shadow-lg animate-pulse"></div>
-                    
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white shadow-lg animate-pulse"></div>
                     {/* 悬停光效 */}
                     <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
-                  
                   {/* 名称 */}
-                  <div className="text-white text-sm font-medium truncate group-hover:text-purple-200 transition-colors duration-300">
+                  <div className="text-white text-xs font-medium truncate group-hover:text-purple-200 transition-colors duration-300">
                     {member.name}
                   </div>
-                  
                   {/* 装饰性小点 */}
-                  <div className="flex justify-center mt-2 space-x-1">
-                    <div className="w-1 h-1 bg-purple-400 rounded-full opacity-60"></div>
-                    <div className="w-1 h-1 bg-pink-400 rounded-full opacity-60"></div>
-                    <div className="w-1 h-1 bg-blue-400 rounded-full opacity-60"></div>
+                  <div className="flex justify-center mt-1 space-x-0.5">
+                    <div className="w-0.5 h-0.5 bg-purple-400 rounded-full opacity-60"></div>
+                    <div className="w-0.5 h-0.5 bg-pink-400 rounded-full opacity-60"></div>
+                    <div className="w-0.5 h-0.5 bg-blue-400 rounded-full opacity-60"></div>
                   </div>
                 </div>
-                
                 {/* 卡片背景装饰 */}
-                <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full -mr-2 -mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute top-0 right-0 w-4 h-4 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full -mr-1 -mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
             ))}
-          </div>
-          
-          <div className="mt-12 text-center">
-            <div className="inline-flex items-center space-x-3 bg-white/10 backdrop-blur px-6 py-3 rounded-full border border-white/20">
-              <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg"></div>
-              <span className="text-white font-medium">
-                {members.length} 位活跃成员在线
-              </span>
-              <div className="w-2 h-2 bg-white/50 rounded-full animate-ping"></div>
-            </div>
-            <p className="text-purple-200 mt-4 text-sm">
-              点击头像了解更多 · 随时加入互动
-            </p>
           </div>
         </div>
       </div>
@@ -675,7 +665,7 @@ function App() {
           >
             <span className="flex items-center justify-center">
               <span className="text-2xl mr-2">💎</span>
-              限时16.8元进群
+              限时19.9元进群
               <span className="text-2xl ml-2">🚀</span>
             </span>
           </button>
