@@ -19,11 +19,9 @@ function AdminPage({ onBack }) {
           ×
         </button>
         <h2 className="text-2xl font-bold text-white">添加群主微信</h2>
-        <div className="bg-white rounded-2xl  mb-6 relative">
-          <div className="w-84 h-84 mx-auto bg-gray-100 rounded-xl flex items-center justify-center relative overflow-hidden">
+          <div className="w-60 h-74 mx-auto bg-gray-100 rounded-xl flex items-center justify-center relative overflow-hidden">
             <img src="/pics/admin.jpg" alt="群主微信二维码" className="w-full h-full object-contain rounded-xl" />
           </div>
-        </div>
         <p className="text-purple-200 text-base mt-2">支付成功后请加群主，并将支付截图发给群主，群主会拉你进群。</p>
       </div>
     </div>
@@ -44,11 +42,10 @@ function PaymentPage({ onBack, onPaid }) {
         </button>
         <h2 className="text-2xl font-bold text-white mb-2">微信支付</h2>
         <p className="text-purple-200 mb-6">扫码下方二维码完成支付</p>
-        <div className="bg-white rounded-2xl p-6 mb-6 relative">
-          <div className="w-48 h-48 mx-auto bg-gray-100 rounded-xl flex items-center justify-center relative overflow-hidden">
+
+          <div className="w-52 h-52 mx-auto bg-gray-100 rounded-xl flex items-center justify-center relative overflow-hidden">
             <img src="/pics/收款码.jpg" alt="微信收款码" className="w-full h-full object-contain rounded-xl" />
           </div>
-        </div>
         <button
           className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl text-lg mt-2 transition-colors"
           onClick={onPaid}
